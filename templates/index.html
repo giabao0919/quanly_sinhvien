@@ -1,0 +1,35 @@
+<!--Hiển thị danh sách sinh viên-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sinh viên</title>
+</head>
+<body>
+    <h1>Danh sách sinh viên</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Ngày sinh</th>
+            <th>Email</th>
+            <th>Điểm</th>
+            <th>Thao tác</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.dob }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.score }}</td>
+            <td>
+                <a href="{{ url_for('edit_student', id=student.id) }}">Sửa</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{{ url_for('add_student') }}">Thêm sinh viên mới</a>
+</body>
+</html>
