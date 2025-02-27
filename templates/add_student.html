@@ -1,26 +1,18 @@
-<!--Form thêm sinh viên mới-->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Thêm sinh viên mới</title>
+    <title>Thêm sinh viên</title>
 </head>
 <body>
-    <h1>Thêm sinh viên mới</h1>
-    <form action="{{ url_for('add_student') }}" method="POST">
-        <label for="name">Tên:</label>
-        <input type="text" name="name" id="name" required><br>
-
-        <label for="dob">Ngày sinh:</label>
-        <input type="date" name="dob" id="dob" required><br>
-
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required><br>
-
-        <label for="score">Điểm:</label>
-        <input type="number" name="score" id="score" required><br>
-
-        <button type="submit">Thêm sinh viên</button>
+    <h1>Thêm sinh viên</h1>
+    <form method="POST">
+        Họ tên: <input type="text" name="name" required><br>
+        Ngày sinh: <input type="date" name="dob" required><br>
+        Email: <input type="email" name="email" required><br>
+        Điểm: <input type="number" name="score" required><br>
+        <button type="submit">Thêm</button>
     </form>
+    <a href="{{ url_for('index') }}">Quay lại</a>
 </body>
 </html>
