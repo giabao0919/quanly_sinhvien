@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Thêm sinh viên</h1>
-    <form method="POST">
+    <form method="POST" action="{{ url_for('add_student') }}">
         Họ tên: <input type="text" name="name" required><br>
         Ngày sinh: <input type="date" name="dob" required><br>
         Email: <input type="email" name="email" required><br>

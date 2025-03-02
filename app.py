@@ -1,3 +1,7 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -87,6 +91,32 @@ def add_student():
         return redirect(url_for('index'))
     
     return render_template('add_student.html')
+
+#chỉnh sửa sinh viêns
+@app.route('/edit_student/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_student(id):
+    student = next((s for s in students if s['id'] == id), None)
+
+    if not student:
+        return "Không tìm thấy sinh viên!", 404
+
+    if request.method == 'POST':
+        student['name'] = request.form['name']
+        student['dob'] = request.form['dob']
+        student['email'] = request.form['email']
+        student['score'] = request.form['score']
+        return redirect(url_for('index'))
+
+    return render_template('edit_student.html', student=student)
+
+#Xóa sinh viên
+@app.route('/delete_student/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_student(id):
+    global students
+    students = [s for s in students if s['id'] != id]
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
