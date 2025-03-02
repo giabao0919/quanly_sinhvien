@@ -1,0 +1,105 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+# Khởi tạo WebDriver
+driver = webdriver.Chrome()
+
+# ==========================
+# 1️⃣ ĐĂNG KÝ TÀI KHOẢN
+# ==========================
+driver.get("http://127.0.0.1:5000/register")
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+driver.find_element(By.NAME, "username").send_keys("testuser")
+driver.find_element(By.NAME, "password").send_keys("Test@123")
+driver.find_element(By.XPATH,"//button[text()='Đăng ký']").click()
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+if "Tài khoản đã tồn tại" in driver.page_source:
+  	  print("❌ Đăng ký thất bại: Tài khoản đã tồn tại.")
+else:
+  	  print("✅ Đăng ký thành công!")
+
+# ==========================
+# 2️⃣ ĐĂNG NHẬP
+# ==========================
+driver.get("http://127.0.0.1:5000/login")
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+driver.find_element(By.NAME, "username").send_keys("testuser")
+driver.find_element(By.NAME, "password").send_keys("Test@123")
+driver.find_element(By.XPATH,"//button[text()='Đăng nhập']").click()
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+if "Danh sách sinh viên" in driver.page_source:
+  	  print("✅ Đăng nhập thành công!")
+else:
+	    print("❌ Đăng nhập thất bại!")
+
+# ==========================
+# 3️⃣ XEM DANH SÁCH SINH VIÊN
+# ==========================
+driver.get("http://127.0.0.1:5000/index")
+
+# Chờ tiêu đề "Danh sách sinh viên" xuất hiện
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+# ==========================
+# 4️⃣ THÊM SINH VIÊN
+# ==========================
+driver.get("http://127.0.0.1:5000/add_student")
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+driver.find_element(By.NAME, "name").send_keys("Nguyen Van C")
+driver.find_element(By.NAME, "dob").send_keys("2002-03-15")
+driver.find_element(By.NAME, "email").send_keys("c@example.com")
+driver.find_element(By.NAME, "score").send_keys("8")
+driver.find_element(By.XPATH,"//button[text()='Thêm']").click()
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+if "Nguyen Van C" in driver.page_source:
+   	 print("✅ Thêm sinh viên thành công!")
+else:
+  	  print("❌ Thêm sinh viên thất bại!")
+
+# ==========================
+# 5️⃣ SỬA THÔNG TIN SINH VIÊN
+# ==========================
+driver.get("http://127.0.0.1:5000/edit_student/3")  # Giả sử ID của sinh viên mới là 3
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+driver.find_element(By.NAME, "name").clear()
+driver.find_element(By.NAME, "name").send_keys("Nguyen Van D Updated")
+driver.find_element(By.XPATH,"//button[text()='Lưu']").click()
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+if "Nguyen Van C Updated" in driver.page_source:
+    	print("✅ Sửa thông tin sinh viên thành công!")
+else:
+    	print("❌ Sửa thông tin sinh viên thất bại!")
+
+# ==========================
+# 6️⃣ XÓA SINH VIÊN
+# ==========================
+driver.get("http://127.0.0.1:5000/delete_student/3")  # Xóa sinh viên có ID 3
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+
+
+if "Nguyen Van C Updated" not in driver.page_source:
+    	print("✅ Xóa sinh viên thành công!")
+else:
+  	  print("❌ Xóa sinh viên thất bại!")
+
+# Đóng trình duyệt sau khi hoàn tất
+driver.quit()
